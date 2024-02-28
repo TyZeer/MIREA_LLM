@@ -1,17 +1,15 @@
 package com.project.websocket.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Builder
 @Document
 public class ChatMessage {
@@ -20,9 +18,7 @@ public class ChatMessage {
     private String chatId;
     private String senderId;
     private String recipientId;
-    private String senderName;
-    private String recipientName;
     private String content;
-    private Date timestamp;
+    private Date timeStamp;
     private MessageStatus status;
 }
