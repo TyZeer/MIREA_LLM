@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # PostgreSQL database service
+  postgres-db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: Mirea_GPT
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  # Python application service
+  python-app:
+    build:
+      context: ./GPT_API # Specify the relative path to your Python app directory
+    command: python API.py
+    ports:
+      - "5000:5000"
+    depends_on:
+      - postgres-db
+    volumes:
+      - ./GPT_API:/app  # Sync local folder to the container
+
+  # Spring Boot application service
+  spring-app:
+    build: 
+      context: ./chat_api # Specify the relative path to your Spring app directory
+      dockerfile: Dockerfile
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/Mirea_GPT
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
+      PROJECT_MANAGER_JWTSECRET: Onfd9KdZiL2JotEGIN9tgIqV3XIU0G0s3BjJSrhnC1kU0VnPu2SiIO9pSUJ58U9
+      PROJECT_MANAGER_JWTEXPIRATIONMS: 86400000
+    ports:
+      - "8081:8081"
+    depends_on:
+      - postgres-db
+    
+
+  # Vite (npm) application service
+  vite-app:
+    build:
+      context: ./gpt-clone # Specify the relative path to your Vite app directory
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    depends_on:
+      - spring-app
+    volumes:
+      - ./gpt-clone:/app  # Sync local folder to the container
+      - node_modules:/app/node_modules
+
+volumes:
+  postgres_data:
+  node_modules: {}

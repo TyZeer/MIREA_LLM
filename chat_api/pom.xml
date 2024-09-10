@@ -11,7 +11,7 @@
 		<groupId>com.project</groupId>
 		<artifactId>chat_api</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-		<name>Chat_Mirea</name>
+		<name>chat_api</name>
 		<description>API for Chat_Mirea</description>
 		<properties>
 			<java.version>21</java.version>
@@ -91,6 +91,10 @@
 				<artifactId>android-json</artifactId>
 				<version>0.0.20131108.vaadin1</version>
 				<scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-actuator</artifactId>
 			</dependency>
 		</dependencies>
 
